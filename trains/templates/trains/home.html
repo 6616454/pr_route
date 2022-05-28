@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block title %}Список поездов{% endblock %}
+
+{% block content %}
+    <h1>Список поездов</h1>
+    <div class="row">
+        <div class="col-md-8 mx-auto my-2">
+            <table class="table table-striped">
+                <tr>
+                    <th>Номер</th>
+                    <th>Откуда</th>
+                    <th>Куда</th>
+                    <th>Время в пути</th>
+                    <th>&nbsp;</th>
+                    <th>&nbsp;</th>
+                </tr>
+                {% for train in page_obg %}
+                    <tr>
+                        <td>
+                            <a href="{{ train.get_absolute_url }}">
+                                <p>{{ train.name }}</p>
+                            </a>
+                        </td>
+                        <td>
+                            {{ train.from_city }}
+                        </td>
+                        <td>
+                            {{ train.to_city }}
+                        </td>
+                        <td>
+                            {{ train.travel_time }}
+                        </td>
+                        {% if user.is_authenticated %}
+                        <td>
+                            <a href="{% url 'trains:update' train.id %}">
+                                <button type="submit" class="btn btn-primary">Редактировать</button>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{% url 'trains:delete' train.id %}">
+                                <button type="submit" class="btn btn-danger">Удалить</button>
+                            </a>
+                        </td>
+                            {% else %}
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                    {% endif %}
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item">
+                {% if page_obg.has_previous %}
+                    <a class="page-link" href="?page={{ page_obg.previous_page_number }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                {% endif %}
+            </li>
+            {% for page in page_obg.paginator.page_range %}
+                <li class="page-item {% if page == page_obg.number %} active {% endif %}"><a class="page-link"
+                                                                                             href="?page={{ page }}">{{ page }}</a>
+                </li>
+            {% endfor %}
+            <li class="page-item">
+                {% if page_obg.has_next %}
+                    <a class="page-link " href="?page={{ page_obg.next_page_number }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                {% endif %}
+            </li>
+        </ul>
+    </nav>
+
+   {#     {% include 'form.html' with button='Отправить' action="/trains/create/" %}#}
+{% endblock %}

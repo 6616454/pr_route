@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %}Список маршрутов{% endblock %}
+
+{% block content %}
+    <h1>Список маршрутов</h1>
+    <div class="row">
+        <div class="col-md-8 mx-auto my-2">
+            <table class="table table-striped">
+                <tr>
+                    <th>Номер</th>
+                    <th>Откуда</th>
+                    <th>Куда</th>
+                    <th>Время в пути</th>
+                </tr>
+                {% for route in page_obg %}
+                    <tr>
+                        <td>
+                            <a href="{{ route.get_absolute_url }}">
+                                <p>{{ route.name }}</p>
+                            </a>
+                        </td>
+                        <td>
+                            {{ route.from_city }}
+                        </td>
+                        <td>
+                            {{ route.to_city }}
+                        </td>
+                        <td>
+                            {{ route.all_time }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item">
+                {% if page_obg.has_previous %}
+                    <a class="page-link" href="?page={{ page_obg.previous_page_number }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                {% endif %}
+            </li>
+            {% for page in page_obg.paginator.page_range %}
+                <li class="page-item {% if page == page_obg.number %} active {% endif %}"><a class="page-link"
+                                                                                             href="?page={{ page }}">{{ page }}</a>
+                </li>
+            {% endfor %}
+            <li class="page-item">
+                {% if page_obg.has_next %}
+                    <a class="page-link " href="?page={{ page_obg.next_page_number }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                {% endif %}
+            </li>
+        </ul>
+    </nav>
+
+   {#     {% include 'form.html' with button='Отправить' action="/trains/create/" %}#}
+{% endblock %}
