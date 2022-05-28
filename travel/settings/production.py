@@ -31,7 +31,7 @@ SECRET_KEY = 'django-insecure-ezh^1%f8%6l64t1a2dx!pr3ev#!sfzaq94#yjx0$bl+ib570u9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['https://find-route-travel.herokuapp.com/']
 
 # Application definition
 INSTALLED_APPS = [
